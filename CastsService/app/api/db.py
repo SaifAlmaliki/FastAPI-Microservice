@@ -10,7 +10,7 @@ if not DATABASE_URI:
     raise ValueError("No DATABASE_URI environment variable set")
 
 # Create a SQLAlchemy engine to connect to the database
-engine = create_engine(DATABASE_URI)
+engine = create_engine(DATABASE_URI, pool_size=10, max_overflow=20)
 
 # Initialize the metadata object to hold information about tables and schemas
 metadata = MetaData()
@@ -19,7 +19,7 @@ casts = Table(
     "casts", 
     metadata, 
     Column('id', Integer, primary_key=True),
-    Column('name', String(50)),
+    Column('name', String(50), index=True),
     Column('nationality', String(250))
 )
 
