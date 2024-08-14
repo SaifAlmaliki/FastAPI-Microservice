@@ -15,7 +15,6 @@ movies = APIRouter()
 # POST endpoint to add a new movie to the database
 @movies.post('/', response_model=MovieOut, status_code=201)
 async def create_movie(payload: MovieIn):
-    logger.info("Adding a new movie to the database...")
     for cast_id in payload.casts_id:
         if not is_cast_present(cast_id):
             raise HTTPException(status_code=404, detail=f"Cast with id:{cast_id} not found")
@@ -31,7 +30,6 @@ async def create_movie(payload: MovieIn):
 # GET endpoint to return the list of all movies
 @movies.get('/', response_model=List[MovieOut])
 async def get_movies():
-    logger.info("Fetching all movies...")
     movies_list = await db_manager.get_all_movies()
     logger.info(f"Fetched {len(movies_list)} movies")
     return movies_list
@@ -39,7 +37,6 @@ async def get_movies():
 # GET endpoint to fetch a single movie by ID
 @movies.get('/{id}/', response_model=MovieOut)
 async def get_movie(id: int):
-    logger.info(f"Fetching movie with id {id} ...")
     movie = await db_manager.get_movie(id)
     if not movie:
         logger.warning(f"Movie with id {id} not found")
@@ -50,7 +47,6 @@ async def get_movie(id: int):
 # PUT endpoint to update an existing movie by ID
 @movies.put('/{id}/', response_model=MovieOut)
 async def update_movie(id: int, payload: MovieUpdate):
-    logger.info(f"Updating movie with id {id} ...")
     movie = await db_manager.get_movie(id)
     if not movie:
         logger.warning(f"Movie with id {id} not found")
@@ -74,7 +70,6 @@ async def update_movie(id: int, payload: MovieUpdate):
 # DELETE endpoint to remove a movie by ID
 @movies.delete('/{id}', response_model=None)
 async def delete_movie(id: int):
-    logger.info(f"Deleting movie with id {id} ...")
     movie = await db_manager.get_movie(id)
     if not movie:
         logger.warning(f"Movie with id {id} not found")

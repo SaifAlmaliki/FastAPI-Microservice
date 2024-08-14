@@ -1,6 +1,10 @@
 import logging
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends, FastAPI
 from typing import List
+
+from app.api.models import CastOut, CastIn
+from app.api import db_manager
+from app.api.db import init_db, close_db
 
 from app.api.models import CastOut, CastIn
 from app.api import db_manager
@@ -16,11 +20,7 @@ logger = logging.getLogger(__name__)
 async def create_cast(payload: CastIn):
     cast_id = await db_manager.add_cast(payload)
     
-    # Construct the response with the new cast ID and the payload data
-    response = {
-        'id': cast_id,
-        **payload.dict()
-    }
+    response = CastOut(id=cast_id, **payload.dict())
     
     logger.info(f"Created cast entry with ID: {cast_id}")
     return response
@@ -33,4 +33,4 @@ async def get_cast(id: int):
         raise HTTPException(status_code=404, detail="Cast not found")
     
     logger.info(f"Retrieved cast entry with ID: {id}")
-    return cast
+    return CastOut(**cast)
