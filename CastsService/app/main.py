@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.api.casts import casts
-from app.api.db import metadata, database, engine
+from CastsService.app.db.db import metadata, database, engine
 from contextlib import asynccontextmanager
 
 # Create all database tables

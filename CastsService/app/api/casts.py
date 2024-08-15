@@ -2,12 +2,12 @@ import logging
 from fastapi import APIRouter, HTTPException, Depends, FastAPI
 from typing import List
 
-from app.api.models import CastOut, CastIn
-from app.api import db_manager
-from app.api.db import init_db, close_db
+from CastsService.app.models.models import CastOut, CastIn
+from CastsService.app.db import db_manager
+from CastsService.app.db.db import init_db, close_db
 
-from app.api.models import CastOut, CastIn
-from app.api import db_manager
+from CastsService.app.models.models import CastOut, CastIn
+from CastsService.app.db import db_manager
 
 # Initialize the APIRouter for casts
 casts = APIRouter()

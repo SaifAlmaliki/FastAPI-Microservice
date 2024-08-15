@@ -1,7 +1,7 @@
 import logging
 from sqlalchemy.exc import SQLAlchemyError
-from app.api.models import CastIn
-from app.api.db import casts, database
+from CastsService.app.models.models import CastIn
+from CastsService.app.db.db import casts, database
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

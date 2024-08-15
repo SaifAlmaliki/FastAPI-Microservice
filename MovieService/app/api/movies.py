@@ -1,9 +1,9 @@
 from typing import List
 from fastapi import HTTPException, APIRouter
 import logging
-from app.api.models import MovieIn, MovieOut, MovieUpdate
-from app.api import db_manager
-from app.api.service import is_cast_present
+from MovieService.app.models.models import MovieIn, MovieOut, MovieUpdate
+from MovieService.app.db import db_manager
+from MovieService.app.s2s.service import is_cast_present
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -16,14 +16,12 @@ movies = APIRouter()
 @movies.post('/', response_model=MovieOut, status_code=201)
 async def create_movie(payload: MovieIn):
     for cast_id in payload.casts_id:
-        if not is_cast_present(cast_id):
+        if not await is_cast_present(cast_id):  # Ensure async check
+            logger.warning(f"Cast with id {cast_id} not found")
             raise HTTPException(status_code=404, detail=f"Cast with id:{cast_id} not found")
 
     movie_id = await db_manager.add_movie(payload)
-    response = {
-        'id': movie_id,
-        **payload.dict()
-    }
+    response = MovieOut(id=movie_id, **payload.dict())
     logger.info(f"Added movie with id {movie_id}")
     return response
 
@@ -56,15 +54,12 @@ async def update_movie(id: int, payload: MovieUpdate):
 
     if 'casts_id' in update_data:
         for cast_id in payload.casts_id:
-            if not is_cast_present(cast_id):
+            if not await is_cast_present(cast_id):
                 logger.warning(f"Cast with id {cast_id} not found")
                 raise HTTPException(status_code=404, detail=f"Cast with given id:{cast_id} not found")
 
-    movie_in_db = MovieIn(**movie)
-    updated_movie = movie_in_db.model_copy(update=update_data)
-
-    updated_id = await db_manager.update_movie(id, updated_movie)
-    logger.info(f"Updated movie with id {updated_id}")
+    updated_movie = await db_manager.update_movie(id, payload)
+    logger.info(f"Updated movie with id {id}")
     return updated_movie
 
 # DELETE endpoint to remove a movie by ID
