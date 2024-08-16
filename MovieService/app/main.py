@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends
 from app.api.movies import movies
-from MovieService.app.db.db import metadata, database, engine
+from app.db.db import metadata, database, engine
 from contextlib import asynccontextmanager
 
 # Create all database tables based on metadata definitions

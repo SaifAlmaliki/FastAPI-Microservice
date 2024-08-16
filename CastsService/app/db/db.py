@@ -2,6 +2,10 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy import Column, Integer, MetaData, String, Table, create_engine, ARRAY
 from databases import Database
+from dotenv import load_dotenv
+
+# Load environment variables from a .env file in the project root
+load_dotenv()
 
 # Fetch the DATABASE_URI environment variable
 DATABASE_URI = os.getenv('DATABASE_URI')

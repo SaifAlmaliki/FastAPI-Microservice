@@ -1,6 +1,6 @@
 from typing import List, Optional
-from MovieService.app.models.models import MovieIn, MovieOut, MovieUpdate
-from MovieService.app.db.db import movies, database
+from app.models.models import MovieIn, MovieOut, MovieUpdate
+from app.db.db import movies, database
 import logging
 from sqlalchemy.exc import SQLAlchemyError
 

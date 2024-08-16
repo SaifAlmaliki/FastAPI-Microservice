@@ -1,9 +1,9 @@
 from typing import List
 from fastapi import HTTPException, APIRouter
 import logging
-from MovieService.app.models.models import MovieIn, MovieOut, MovieUpdate
-from MovieService.app.db import db_manager
-from MovieService.app.s2s.service import is_cast_present
+from app.models.models import MovieIn, MovieOut, MovieUpdate
+from app.db import db_manager
+from app.s2s.service import is_cast_present
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

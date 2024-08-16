@@ -13,7 +13,7 @@ MovieService is a microservice built using FastAPI for managing movies in the da
 
 ## Prerequisites
 
-- Python 3.8 or higher
+- Python 3.12 or higher
 - PostgreSQL 12.1 or higher
 - Docker & Docker Compose (optional, for containerized deployment)
 
@@ -29,7 +29,7 @@ cd MovieService
 ````
 
 ### 2. Set Up a Python Virtual Environment
-It is recommended to create and activate a Python virtual environment to manage dependencies separately from your global Python environment.
+It is recommended to create and activate a seperate Python virtual environment for each service to manage dependencies separately from your global Python environment.
 
 ```bash
 python3 -m venv venv
